@@ -38,5 +38,4 @@ var taskConfig = {
 	}
 
 };
-
 initGulpTasks(gulp, taskConfig);

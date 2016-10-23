@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 
-
 export default class DatePicker extends React.Component {
 	constructor(props) {
 		super(props)
@@ -26,15 +25,26 @@ export default class DatePicker extends React.Component {
 		} else {
 			day = ['วันที่'], month= ['เดือน'], year = ['ปี'];
 		}
+
 		for (let i=1; i<=31; i++) {
 			day.push(i);
 		}
 		for (let i=1; i<=12; i++) {
 			month.push(i);
 		}
-		for (let i=2016; i>=1916; i--) {
+
+		let minYear = 1916;
+		let maxYear = 2016;
+
+		if(this.props.minYear && this.props.maxYear) {
+			minYear = this.props.minYear;
+			maxYear = this.props.maxYear;
+		}
+
+		for (let i=maxYear; i>=minYear; i--) {
 			year.push(i);
 		}
+
 		this.setState({
 			day: day,
 			month: month,
@@ -60,8 +70,6 @@ export default class DatePicker extends React.Component {
 			selectYear = value;
 		}
 
-		console.log(selectDay, selectMonth, selectYear)
-
 		if(this.isSelectedAllDropdowns(selectDay, selectMonth, selectYear)){
 
 			this.props.dateChange( moment({ year :selectYear, month :selectMonth - 1, day :selectDay}).format() )
@@ -73,8 +81,6 @@ export default class DatePicker extends React.Component {
 			? selectDay !== "day" && selectMonth !== "month" && selectYear !== "year"
 			: selectDay !== "วันที่" && selectMonth !== "เดือน" && selectYear !== "ปี"
 	}
-
-
 
 	render() {
 
