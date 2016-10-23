@@ -52,3 +52,6 @@ label {
   font-style: italic;
   color: #999;
 }
+select {
+  margin-right: 10px;
+}
