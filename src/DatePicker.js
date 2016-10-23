@@ -37,16 +37,26 @@ export default class DatePicker extends React.Component {
 		})
 	}
 	
-	changeDay(day) {
-		this.checkDate("day", day)
+	changeDate(e, type) {
+		console.log(type);
+		this.setState({
+			[type]: e.target.value
+		})
 	}
 
-	changeMonth(month) {
-		this.checkDate("month", month)
+	// changeDay(e) {
+	// 	this.setState({
+	// 		selectDay: e.target.value
+	// 	})
+	// 	// this.checkDate("day", this.state.selectDay)
+	// }
+
+	changeMonth(e) {
+		// this.checkDate("month", this.state.selectMonth)
 	}
 
-	changeYear(year) {
-		this.checkDate("year", year)
+	changeYear(e) {
+		// this.checkDate("year", this.state.selectYear)
 	}
 
 	checkDate(key, value) {
@@ -111,24 +121,26 @@ export default class DatePicker extends React.Component {
 	render() {
 
 		const dayElement = this.state.day.map((day, id) => {
-			return <option onClick={() => this.changeDay(day)}>{ day }</option>
+			return <option value={ day }>{ day }</option>
 		})
 		const monthElement = this.state.month.map((month, id) => {
-			return <option onClick={() => this.changeMonth(month)}>{ month }</option>
+			return <option value={ month }>{ month }</option>
 		})
 		const yearElement = this.state.year.map((year, id) => {
-			return <option onClick={() => this.changeYear(year)}>{ year }</option>
+			return <option value={ year }>{ year }</option>
 		})
+
+		console.log(this.state.selectDay)
 
 		return (
 			<div>
-				<select title={this.state.selectDay}>
+				<select value={this.state.selectDay} onChange={(e) => this.changeDate(e, 'selectDay')}>
 					{ dayElement }
 				</select>
-				<select title={this.state.selectMonth}>
+				<select value={this.state.selectMonth} onChange={(e) => this.changeMonth(e)}>
 					{ monthElement }
 				</select>
-				<select title={this.state.selectYear}>
+				<select value={this.state.selectYear} onChange={(e) => this.changeYear(e)}>
 					{ yearElement }
 				</select>
 				<br />
