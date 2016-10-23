@@ -12,7 +12,6 @@ class App extends React.Component {
 	}
 
 	dateChange(date) {
-		console.log(date);
 		this.setState ({
 			date: date
 		})

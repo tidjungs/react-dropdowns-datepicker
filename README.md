@@ -1,6 +1,6 @@
 # DatePicker
 
-__COMPONENT DESCRIPTION GOES HERE__
+__Dropdown component for easier date picker form__
 
 
 ## Demo & Examples
@@ -30,22 +30,49 @@ npm install react-dropdowns-datepicker --save
 
 ## Usage
 
-__EXPLAIN USAGE HERE__
+```
+import React from 'react';
+import DatePicker from'react-dropdowns-datepicker';
+
+class App extends React.Component {
+
+	constructor() {
+		super();
+		this.state = {
+			date: null
+		};
+	}
+
+	dateChange(date) {
+		this.setState ({
+			date: date
+		});
+	}
+
+	render () {
+		return (
+			<div>
+				<DatePicker dateChange={ this.dateChange.bind(this) } mode="EN"/>
+			</div>
+		);
+	}
+};
 
 ```
-var DatePicker = require('react-dropdowns-datepicker');
 
-<DatePicker>Example</DatePicker>
+__THAI MODE__
+
+```
+<DatePicker dateChange={ this.dateChange.bind(this) } mode="TH"/>
+
 ```
 
-### Properties
+__MIN YEAR & MAX YEAR (normal state is 1916 to 2016)__
 
-* __DOCUMENT PROPERTIES HERE__
+```
+<DatePicker dateChange={ this.dateChange.bind(this) } mode="EN" minYear={1900} maxYear={2020} />
 
-### Notes
-
-__ADDITIONAL USAGE NOTES__
-
+```
 
 ## Development (`src`, `lib` and the build process)
 
@@ -54,8 +81,6 @@ __ADDITIONAL USAGE NOTES__
 To build, watch and serve the examples (which will also watch the component source), run `npm start`. If you just want to watch changes to `src` and rebuild `lib`, run `npm run watch` (this is useful if you are working with `npm link`).
 
 ## License
-
-__PUT LICENSE HERE__
 
 Copyright (c) 2016 Waewprach Suthirawut.
 
