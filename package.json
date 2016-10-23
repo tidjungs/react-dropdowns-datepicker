@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "classnames": "^2.1.2",
-    "react-bootstrap": "^0.30.5"
+    "moment": "^2.15.1"
   },
   "devDependencies": {
     "babel-eslint": "^4.1.3",

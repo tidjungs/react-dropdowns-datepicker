@@ -21,8 +21,8 @@ class App extends React.Component {
 	render () {
 		return (
 			<div>
-				<p>วันเกิด { this.state.date } </p>
-				<DatePicker dateChange={ () => this.dateChange() } />
+				<DatePicker dateChange={ this.dateChange.bind(this) } mode="EN" />
+				<p>Output : { this.state.date } </p>
 			</div>
 		);
 	}

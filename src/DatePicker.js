@@ -1,150 +1,104 @@
 import React from 'react';
+import moment from 'moment';
 
 
 export default class DatePicker extends React.Component {
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 		this.state = {
 			day: null,
 			month: null,
 			year: null,
-			selectDay: "วันที่",
-			selectMonth: "เดือน",
-			selectYear: "ปี",
-			error: false
+			selectDay: props.mode === "EN" ? "day" : "วันที่",
+			selectMonth: props.mode === "EN" ? "month" : "เดือน",
+			selectYear: props.mode === "EN" ? "year" : "ปี",
 		}
 	}
 
 	shouldComponentUpdate(_nextProps, nextState) {
-    	return this.state.selectDay !== nextState.selectDay || this.state.selectMonth !== nextState.selectMonth || this.state.selectYear !== nextState.selectYear
+    return this.state.selectDay !== nextState.selectDay || this.state.selectMonth !== nextState.selectMonth || this.state.selectYear !== nextState.selectYear
   }
 
 	componentWillMount() {
-		var day = [], month = [], year = []
-		for (var i=1; i<=31; i++) {
-			day.push(i)
+		let day, month, year;
+		if(this.props.mode === "EN") {
+			day = ['day'], month = ['month'], year = ['year'];
+		} else {
+			day = ['วันที่'], month= ['เดือน'], year = ['ปี'];
 		}
-		for (var i=1; i<=12; i++) {
-			month.push(i)
+		for (let i=1; i<=31; i++) {
+			day.push(i);
 		}
-		for (var i=2016; i>=1916; i--) {
-			year.push(i)
+		for (let i=1; i<=12; i++) {
+			month.push(i);
+		}
+		for (let i=2016; i>=1916; i--) {
+			year.push(i);
 		}
 		this.setState({
 			day: day,
 			month: month,
 			year: year
-		})
+		});
 	}
 	
 	changeDate(e, type) {
-		console.log(type);
 		this.setState({
 			[type]: e.target.value
-		})
+		});
+		this.checkDate(e.target.value, type);
 	}
 
-	// changeDay(e) {
-	// 	this.setState({
-	// 		selectDay: e.target.value
-	// 	})
-	// 	// this.checkDate("day", this.state.selectDay)
-	// }
+	checkDate(value, type) {
+		let { selectDay, selectMonth, selectYear } = this.state;
 
-	changeMonth(e) {
-		// this.checkDate("month", this.state.selectMonth)
-	}
-
-	changeYear(e) {
-		// this.checkDate("year", this.state.selectYear)
-	}
-
-	checkDate(key, value) {
-
-		let day = this.state.selectDay
-		let month = this.state.selectMonth
-		let year = this.state.selectYear
-
-		if(key === "day") {
-			day = value
+		if (type === 'selectDay') {
+			selectDay = value;
+		} else if (type === 'selectMonth') {
+			selectMonth = value;
+		} else if (type === 'selectYear') {
+			selectYear = value;
 		}
-		else if (key === "month") {
-			month = value
-		}
-		else if (key === "year") {
-			year = value
-		}
-		if(day !== "วันที่" && month !== "เดือน" && year !== "ปี"){
-			let dayStr, monthStr
-			if(day < 10){
-				dayStr = "0" + day.toString()
-			}
-			else {
-				dayStr = day.toString()
-			}
-			if(month < 10){
-				monthStr = "0" + month.toString()
-			}
-			else {
-				monthStr = month.toString()
-			}
-			let date = dayStr + "." + monthStr + "." + year.toString()
-			let pattern = /(\d{2})\.(\d{2})\.(\d{4})/
-			let dt = new Date(date.replace(pattern,'$3-$2-$1'))
-			if(!isNaN(dt)) {
-				this.setState({
-					error: false,
-					selectDay: day,
-					selectMonth: month,
-					selectYear: year,
-				})
-				this.props.dateChange(dt)
-			}
-			else {
-				this.setState({
-					error: true,
-					selectDay: day,
-					selectMonth: month,
-					selectYear: year,
-				})
-			}
-		}
-		else {
-			this.setState({
-				selectDay: day,
-				selectMonth: month,
-				selectYear: year
-			})
+
+		console.log(selectDay, selectMonth, selectYear)
+
+		if(this.isSelectedAllDropdowns(selectDay, selectMonth, selectYear)){
+
+			this.props.dateChange( moment({ year :selectYear, month :selectMonth - 1, day :selectDay}).format() )
 		}
 	}
+
+	isSelectedAllDropdowns(selectDay, selectMonth, selectYear) {
+		return this.props.mode === "EN" 
+			? selectDay !== "day" && selectMonth !== "month" && selectYear !== "year"
+			: selectDay !== "วันที่" && selectMonth !== "เดือน" && selectYear !== "ปี"
+	}
+
+
 
 	render() {
 
 		const dayElement = this.state.day.map((day, id) => {
-			return <option value={ day }>{ day }</option>
+			return <option value={ day } key={ id }>{ day }</option>
 		})
 		const monthElement = this.state.month.map((month, id) => {
-			return <option value={ month }>{ month }</option>
+			return <option value={ month } key={ id }>{ month }</option>
 		})
 		const yearElement = this.state.year.map((year, id) => {
-			return <option value={ year }>{ year }</option>
+			return <option value={ year } key={ id }>{ year }</option>
 		})
-
-		console.log(this.state.selectDay)
 
 		return (
 			<div>
 				<select value={this.state.selectDay} onChange={(e) => this.changeDate(e, 'selectDay')}>
 					{ dayElement }
 				</select>
-				<select value={this.state.selectMonth} onChange={(e) => this.changeMonth(e)}>
+				<select value={this.state.selectMonth} onChange={(e) => this.changeDate(e, 'selectMonth')}>
 					{ monthElement }
 				</select>
-				<select value={this.state.selectYear} onChange={(e) => this.changeYear(e)}>
+				<select value={this.state.selectYear} onChange={(e) => this.changeDate(e, 'selectYear')}>
 					{ yearElement }
 				</select>
-				<br />
-				{ this.state.error ? <p>วันที่ไม่ถูกต้อง</p> : null }
 			</div>
 		)
 	}
