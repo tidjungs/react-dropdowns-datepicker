@@ -1,0 +1,29 @@
+{
+  "name": "react-dropdowns-datepicker",
+  "version": "0.0.0",
+  "description": "DatePicker",
+  "main": "dist/react-dropdowns-datepicker.min.js",
+  "homepage": "https://github.com/tidjungs/react-dropdowns-datepicker",
+  "authors": [
+    "Waewprach Suthirawut"
+  ],
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "react",
+    "react-component"
+  ],
+  "license": "MIT",
+  "ignore": [
+    ".editorconfig",
+    ".gitignore",
+    "package.json",
+    "src",
+    "node_modules",
+    "example",
+    "test"
+  ]
+}
