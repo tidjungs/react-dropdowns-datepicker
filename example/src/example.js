@@ -20,7 +20,7 @@ class App extends React.Component {
 	render () {
 		return (
 			<div>
-				<DatePicker dateChange={ this.dateChange.bind(this) } mode="EN"/>
+				<DatePicker dateChange={ this.dateChange.bind(this) } />
 				<p>Output : { this.state.date } </p>
 			</div>
 		);

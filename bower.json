@@ -1,6 +1,6 @@
 {
   "name": "react-dropdowns-datepicker",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "description": "DatePicker",
   "main": "dist/react-dropdowns-datepicker.min.js",
   "homepage": "https://github.com/tidjungs/react-dropdowns-datepicker",

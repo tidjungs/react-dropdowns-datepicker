@@ -8,9 +8,9 @@ export default class DatePicker extends React.Component {
 			day: null,
 			month: null,
 			year: null,
-			selectDay: props.mode === "EN" ? "day" : "วันที่",
-			selectMonth: props.mode === "EN" ? "month" : "เดือน",
-			selectYear: props.mode === "EN" ? "year" : "ปี",
+			selectDay: props.mode === "TH" ? "วันที่" : "day",
+			selectMonth: props.mode === "TH" ? "เดือน" : "month",
+			selectYear: props.mode === "TH" ? "ปี" : "year",
 		}
 	}
 
@@ -20,10 +20,10 @@ export default class DatePicker extends React.Component {
 
 	componentWillMount() {
 		let day, month, year;
-		if(this.props.mode === "EN") {
-			day = ['day'], month = ['month'], year = ['year'];
-		} else {
+		if(this.props.mode === "TH") {
 			day = ['วันที่'], month= ['เดือน'], year = ['ปี'];
+		} else {
+			day = ['day'], month = ['month'], year = ['year'];
 		}
 
 		for (let i=1; i<=31; i++) {
@@ -71,15 +71,14 @@ export default class DatePicker extends React.Component {
 		}
 
 		if(this.isSelectedAllDropdowns(selectDay, selectMonth, selectYear)){
-
 			this.props.dateChange( moment({ year :selectYear, month :selectMonth - 1, day :selectDay}).format() )
 		}
 	}
 
 	isSelectedAllDropdowns(selectDay, selectMonth, selectYear) {
-		return this.props.mode === "EN" 
-			? selectDay !== "day" && selectMonth !== "month" && selectYear !== "year"
-			: selectDay !== "วันที่" && selectMonth !== "เดือน" && selectYear !== "ปี"
+		return this.props.mode === "TH" 
+			? selectDay !== "วันที่" && selectMonth !== "เดือน" && selectYear !== "ปี"
+			: selectDay !== "day" && selectMonth !== "month" && selectYear !== "year"
 	}
 
 	render() {

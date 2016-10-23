@@ -52,7 +52,7 @@ class App extends React.Component {
 	render () {
 		return (
 			<div>
-				<DatePicker dateChange={ this.dateChange.bind(this) } mode="EN"/>
+				<DatePicker dateChange={ this.dateChange.bind(this) } />
 			</div>
 		);
 	}
@@ -68,9 +68,9 @@ __THAI MODE__
 ```
 
 
-__MIN YEAR & MAX YEAR (normal state is 1916 to 2016)__
+__MIN YEAR & MAX YEAR (default state is 1916 to 2016)__
 ```js
-<DatePicker dateChange={ this.dateChange.bind(this) } mode="EN" minYear={1900} maxYear={2020} />
+<DatePicker dateChange={ this.dateChange.bind(this) } minYear={1900} maxYear={2020} />
 ```
 
 ## Development (`src`, `lib` and the build process)
