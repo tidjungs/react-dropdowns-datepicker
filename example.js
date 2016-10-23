@@ -11,13 +11,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
 var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
 
 var _reactDropdownsDatepicker = require('react-dropdowns-datepicker');
 
@@ -48,14 +48,15 @@ var App = (function (_React$Component) {
 			return _react2['default'].createElement(
 				'div',
 				null,
-				_react2['default'].createElement(_reactDropdownsDatepicker2['default'], { dateChange: this.dateChange.bind(this), mode: 'EN' }),
+				_react2['default'].createElement(_reactDropdownsDatepicker2['default'], { dateChange: this.dateChange.bind(this) }),
 				_react2['default'].createElement(
 					'p',
 					null,
 					'Output : ',
 					this.state.date,
 					' '
-				)
+				),
+				_react2['default'].createElement('br', null)
 			);
 		}
 	}]);

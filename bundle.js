@@ -4271,9 +4271,9 @@ var DatePicker = (function (_React$Component) {
 			day: null,
 			month: null,
 			year: null,
-			selectDay: props.mode === "EN" ? "day" : "วันที่",
-			selectMonth: props.mode === "EN" ? "month" : "เดือน",
-			selectYear: props.mode === "EN" ? "year" : "ปี"
+			selectDay: props.mode === "TH" ? "วันที่" : "day",
+			selectMonth: props.mode === "TH" ? "เดือน" : "month",
+			selectYear: props.mode === "TH" ? "ปี" : "year"
 		};
 	}
 
@@ -4288,10 +4288,10 @@ var DatePicker = (function (_React$Component) {
 			var day = undefined,
 			    month = undefined,
 			    year = undefined;
-			if (this.props.mode === "EN") {
-				day = ['day'], month = ['month'], year = ['year'];
-			} else {
+			if (this.props.mode === "TH") {
 				day = ['วันที่'], month = ['เดือน'], year = ['ปี'];
+			} else {
+				day = ['day'], month = ['month'], year = ['year'];
 			}
 
 			for (var i = 1; i <= 31; i++) {
@@ -4342,14 +4342,13 @@ var DatePicker = (function (_React$Component) {
 			}
 
 			if (this.isSelectedAllDropdowns(selectDay, selectMonth, selectYear)) {
-
 				this.props.dateChange((0, _moment2['default'])({ year: selectYear, month: selectMonth - 1, day: selectDay }).format());
 			}
 		}
 	}, {
 		key: 'isSelectedAllDropdowns',
 		value: function isSelectedAllDropdowns(selectDay, selectMonth, selectYear) {
-			return this.props.mode === "EN" ? selectDay !== "day" && selectMonth !== "month" && selectYear !== "year" : selectDay !== "วันที่" && selectMonth !== "เดือน" && selectYear !== "ปี";
+			return this.props.mode === "TH" ? selectDay !== "วันที่" && selectMonth !== "เดือน" && selectYear !== "ปี" : selectDay !== "day" && selectMonth !== "month" && selectYear !== "year";
 		}
 	}, {
 		key: 'render',
