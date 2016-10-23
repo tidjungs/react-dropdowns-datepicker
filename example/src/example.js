@@ -1,15 +1,8 @@
 import ReactDOM from'react-dom';
 import React from 'react';
 import DatePicker from'react-dropdowns-datepicker';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-const App = () => (
-  <MuiThemeProvider>
-    <Example />
-  </MuiThemeProvider>
-);
-
-class Example extends React.Component {
+class App extends React.Component {
 
 	constructor() {
 		super()
@@ -27,7 +20,6 @@ class Example extends React.Component {
 	render () {
 		return (
 			<div>
-				<p>English</p>
 				<DatePicker dateChange={ this.dateChange.bind(this) } />
 				<p>Output : { this.state.date } </p>
 				<br />
