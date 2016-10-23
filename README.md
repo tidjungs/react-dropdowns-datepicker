@@ -30,7 +30,7 @@ npm install react-dropdowns-datepicker --save
 
 ## Usage
 
-```
+```js
 import React from 'react';
 import DatePicker from'react-dropdowns-datepicker';
 
@@ -59,13 +59,17 @@ class App extends React.Component {
 };
 ```
 
+##Configuration
+
+
 __THAI MODE__
-```
+```js
 <DatePicker dateChange={ this.dateChange.bind(this) } mode="TH"/>
 ```
 
+
 __MIN YEAR & MAX YEAR (normal state is 1916 to 2016)__
-```
+```js
 <DatePicker dateChange={ this.dateChange.bind(this) } mode="EN" minYear={1900} maxYear={2020} />
 ```
 
