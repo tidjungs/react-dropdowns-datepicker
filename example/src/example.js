@@ -1,15 +1,31 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var DatePicker = require('react-dropdowns-datepicker');
+import React from 'react';
+import ReactDOM from'react-dom';
+import DatePicker from'react-dropdowns-datepicker';
 
-var App = React.createClass({
+class App extends React.Component {
+
+	constructor() {
+		super()
+		this.state = {
+			date: null
+		}
+	}
+
+	dateChange(date) {
+		console.log(date);
+		this.setState ({
+			date: date
+		})
+	}
+
 	render () {
 		return (
 			<div>
-				<DatePicker />
+				<p>วันเกิด { this.state.date } </p>
+				<DatePicker dateChange={ () => this.dateChange() } />
 			</div>
 		);
 	}
-});
+};
 
 ReactDOM.render(<App />, document.getElementById('app'));
