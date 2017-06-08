@@ -40,13 +40,7 @@ export default class DatePicker extends React.Component {
 			monthIndex++;
 		}
 
-
-		if (this.props.minYear && this.props.maxYear) {
-			minYear = this.props.minYear;
-			maxYear = this.props.maxYear;
-		}
-
-		for (let i=maxYear; i>=minYear; i--) {
+		for (let i=this.props.maxYear; i>=this.props.minYear; i--) {
 			year.push(i);
 		}
 

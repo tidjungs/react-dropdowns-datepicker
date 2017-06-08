@@ -4502,10 +4502,6 @@ var DatePicker = (function (_React$Component) {
 		var monthLabel = props.monthLabel;
 		var yearLabel = props.yearLabel;
 
-		dayLabel = dayLabel || 'day';
-		monthLabel = monthLabel || 'month';
-		yearLabel = yearLabel || 'year';
-
 		this.state = {
 			day: null,
 			month: null,
@@ -4566,15 +4562,7 @@ var DatePicker = (function (_React$Component) {
 				}
 			}
 
-			var minYear = 1916;
-			var maxYear = 2016;
-
-			if (this.props.minYear && this.props.maxYear) {
-				minYear = this.props.minYear;
-				maxYear = this.props.maxYear;
-			}
-
-			for (var i = maxYear; i >= minYear; i--) {
+			for (var i = this.props.maxYear; i >= this.props.minYear; i--) {
 				year.push(i);
 			}
 
@@ -4692,7 +4680,7 @@ exports['default'] = DatePicker;
 
 DatePicker.propTypes = {
 	className: _react2['default'].PropTypes.string,
-	dateChange: _react2['default'].PropTypes.func.isRequired,
+	dateChange: _react2['default'].PropTypes.func,
 	dayLabel: _react2['default'].PropTypes.string,
 	maxYear: _react2['default'].PropTypes.number,
 	minYear: _react2['default'].PropTypes.number,
@@ -4709,14 +4697,15 @@ DatePicker.propTypes = {
 
 DatePicker.defaultProps = {
 	dayLabel: 'day',
-	minYear: (0, _moment2['default'])().subtract('y', 100),
-	maxYear: (0, _moment2['default'])().year(),
+	minYear: 1916,
+	maxYear: 2016,
 	monthLabel: 'month',
 	padDay: false,
 	padMonth: false,
 	selectDay: '',
 	selectMonth: '',
 	selectYear: '',
+	yearLabel: 'year',
 	useMonthNames: false
 };
 module.exports = exports['default'];
