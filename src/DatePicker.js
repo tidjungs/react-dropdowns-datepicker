@@ -4,31 +4,47 @@ import moment from 'moment';
 export default class DatePicker extends React.Component {
 	constructor(props) {
 		super(props)
+		let { dayLabel, monthLabel, yearLabel } = props;
+
+		dayLabel = dayLabel || "day";
+		monthLabel = monthLabel || "month";
+		yearLabel = yearLabel || "year";
+
 		this.state = {
 			day: null,
 			month: null,
 			year: null,
-			selectDay: props.mode === "TH" ? "วันที่" : "day",
-			selectMonth: props.mode === "TH" ? "เดือน" : "month",
-			selectYear: props.mode === "TH" ? "ปี" : "year",
+			selectDay: props.mode === "TH" ? "วันที่" : dayLabel,
+			selectMonth: props.mode === "TH" ? "เดือน" :monthLabel,
+			selectYear: props.mode === "TH" ? "ปี" : yearLabel,
 		}
 	}
 
 	shouldComponentUpdate(_nextProps, nextState) {
-    return this.state.selectDay !== nextState.selectDay || this.state.selectMonth !== nextState.selectMonth || this.state.selectYear !== nextState.selectYear
-  }
+		return this.state.selectDay !== nextState.selectDay || this.state.selectMonth !== nextState.selectMonth || this.state.selectYear !== nextState.selectYear
+	}
 
 	componentWillMount() {
 		let day, month, year;
-		if(this.props.mode === "TH") {
-			day = ['วันที่'], month= ['เดือน'], year = ['ปี'];
+		if (this.props.mode === "TH") {
+			day = ['วันที่'], month= [{ text: 'เดือน', value: 'เดือน'}], year = ['ปี'];
 		} else {
-			day = ['day'], month = ['month'], year = ['year'];
+			day = [this.props.dayLabel], month = [{ text: this.props.monthLabel, value: this.props.monthLabel}], year = [this.props.yearLabel];
 		}
 
 		for (let i=1; i<=31; i++) {
 			day.push(i);
 		}
+
+		let monthIndex = 1;
+		for (const monthName of moment.localeData().months()) {
+			month.push({
+				text: this.props.useMonthNames ? monthName : index,
+				value: monthIndex
+			});
+			monthIndex++;
+		}
+
 		for (let i=1; i<=12; i++) {
 			month.push(i);
 		}
@@ -36,7 +52,7 @@ export default class DatePicker extends React.Component {
 		let minYear = 1916;
 		let maxYear = 2016;
 
-		if(this.props.minYear && this.props.maxYear) {
+		if (this.props.minYear && this.props.maxYear) {
 			minYear = this.props.minYear;
 			maxYear = this.props.maxYear;
 		}
@@ -78,7 +94,7 @@ export default class DatePicker extends React.Component {
 	isSelectedAllDropdowns(selectDay, selectMonth, selectYear) {
 		return this.props.mode === "TH" 
 			? selectDay !== "วันที่" && selectMonth !== "เดือน" && selectYear !== "ปี"
-			: selectDay !== "day" && selectMonth !== "month" && selectYear !== "year"
+			: selectDay !== this.props.dayLabel && selectMonth !== this.props.monthLabel && selectYear !== this.props.yearLabel
 	}
 
 	render() {
@@ -87,7 +103,7 @@ export default class DatePicker extends React.Component {
 			return <option value={ day } key={ id }>{ day }</option>
 		})
 		const monthElement = this.state.month.map((month, id) => {
-			return <option value={ month } key={ id }>{ month }</option>
+			return <option value={ month.value } key={ id }>{ month.text }</option>
 		})
 		const yearElement = this.state.year.map((year, id) => {
 			return <option value={ year } key={ id }>{ year }</option>
@@ -95,13 +111,13 @@ export default class DatePicker extends React.Component {
 
 		return (
 			<div>
-				<select value={this.state.selectDay} onChange={(e) => this.changeDate(e, 'selectDay')}>
+				<select {...props} value={this.state.selectDay} onChange={(e) => this.changeDate(e, 'selectDay')}>
 					{ dayElement }
 				</select>
-				<select value={this.state.selectMonth} onChange={(e) => this.changeDate(e, 'selectMonth')}>
+				<select {...props} value={this.state.selectMonth} onChange={(e) => this.changeDate(e, 'selectMonth')}>
 					{ monthElement }
 				</select>
-				<select value={this.state.selectYear} onChange={(e) => this.changeDate(e, 'selectYear')}>
+				<select {...props} value={this.state.selectYear} onChange={(e) => this.changeDate(e, 'selectYear')}>
 					{ yearElement }
 				</select>
 			</div>
