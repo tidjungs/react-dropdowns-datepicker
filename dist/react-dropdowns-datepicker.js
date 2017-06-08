@@ -4471,8 +4471,6 @@ Object.defineProperty(exports, '__esModule', {
 	value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -4504,17 +4502,17 @@ var DatePicker = (function (_React$Component) {
 		var monthLabel = props.monthLabel;
 		var yearLabel = props.yearLabel;
 
-		dayLabel = dayLabel || "day";
-		monthLabel = monthLabel || "month";
-		yearLabel = yearLabel || "year";
+		dayLabel = dayLabel || 'day';
+		monthLabel = monthLabel || 'month';
+		yearLabel = yearLabel || 'year';
 
 		this.state = {
 			day: null,
 			month: null,
 			year: null,
-			selectDay: props.mode === "TH" ? "วันที่" : dayLabel,
-			selectMonth: props.mode === "TH" ? "เดือน" : monthLabel,
-			selectYear: props.mode === "TH" ? "ปี" : yearLabel
+			selectDay: props.mode === 'TH' ? 'วันที่' : dayLabel,
+			selectMonth: props.mode === 'TH' ? 'เดือน' : monthLabel,
+			selectYear: props.mode === 'TH' ? 'ปี' : yearLabel
 		};
 	}
 
@@ -4526,17 +4524,16 @@ var DatePicker = (function (_React$Component) {
 	}, {
 		key: 'componentWillMount',
 		value: function componentWillMount() {
-			var day = undefined,
-			    month = undefined,
-			    year = undefined;
-			if (this.props.mode === "TH") {
-				day = ['วันที่'], month = [{ text: 'เดือน', value: 'เดือน' }], year = ['ปี'];
-			} else {
-				day = [this.props.dayLabel], month = [{ text: this.props.monthLabel, value: this.props.monthLabel }], year = [this.props.yearLabel];
-			}
+			var day = [],
+			    month = [],
+			    year = [];
+
+			var pad = function pad(n) {
+				return n < 10 ? '0' + n : n;
+			};
 
 			for (var i = 1; i <= 31; i++) {
-				day.push(i);
+				day.push(this.props.padDay ? pad(i) : i);
 			}
 
 			var monthIndex = 1;
@@ -4549,7 +4546,7 @@ var DatePicker = (function (_React$Component) {
 					var monthName = _step.value;
 
 					month.push({
-						text: this.props.useMonthNames ? monthName : index,
+						text: this.props.useMonthNames ? monthName : this.props.padMonth ? pad(monthIndex) : monthIndex,
 						value: monthIndex
 					});
 					monthIndex++;
@@ -4567,10 +4564,6 @@ var DatePicker = (function (_React$Component) {
 						throw _iteratorError;
 					}
 				}
-			}
-
-			for (var i = 1; i <= 12; i++) {
-				month.push(i);
 			}
 
 			var minYear = 1916;
@@ -4620,7 +4613,7 @@ var DatePicker = (function (_React$Component) {
 	}, {
 		key: 'isSelectedAllDropdowns',
 		value: function isSelectedAllDropdowns(selectDay, selectMonth, selectYear) {
-			return this.props.mode === "TH" ? selectDay !== "วันที่" && selectMonth !== "เดือน" && selectYear !== "ปี" : selectDay !== this.props.dayLabel && selectMonth !== this.props.monthLabel && selectYear !== this.props.yearLabel;
+			return this.props.mode === 'TH' ? selectDay !== 'วันที่' && selectMonth !== 'เดือน' && selectYear !== 'ปี' : selectDay !== this.props.dayLabel && selectMonth !== this.props.monthLabel && selectYear !== this.props.yearLabel;
 		}
 	}, {
 		key: 'render',
@@ -4654,23 +4647,38 @@ var DatePicker = (function (_React$Component) {
 				null,
 				_react2['default'].createElement(
 					'select',
-					_extends({}, props, { value: this.state.selectDay, onChange: function (e) {
+					{ defaultValue: '', className: this.props.className, value: this.state.selectDay, onChange: function (e) {
 							return _this.changeDate(e, 'selectDay');
-						} }),
+						} },
+					_react2['default'].createElement(
+						'option',
+						{ value: '' },
+						this.props.mode === 'TH' ? 'วันที่' : this.props.dayLabel
+					),
 					dayElement
 				),
 				_react2['default'].createElement(
 					'select',
-					_extends({}, props, { value: this.state.selectMonth, onChange: function (e) {
+					{ defaultValue: '', className: this.props.className, value: this.state.selectMonth, onChange: function (e) {
 							return _this.changeDate(e, 'selectMonth');
-						} }),
+						} },
+					_react2['default'].createElement(
+						'option',
+						{ value: '' },
+						this.props.mode === 'TH' ? 'เดือน' : this.props.monthLabel
+					),
 					monthElement
 				),
 				_react2['default'].createElement(
 					'select',
-					_extends({}, props, { value: this.state.selectYear, onChange: function (e) {
+					{ defaultValue: '', className: this.props.className, value: this.state.selectYear, onChange: function (e) {
 							return _this.changeDate(e, 'selectYear');
-						} }),
+						} },
+					_react2['default'].createElement(
+						'option',
+						{ value: '' },
+						this.props.mode === 'TH' ? 'ปี' : this.props.yearLabel
+					),
 					yearElement
 				)
 			);
@@ -4681,6 +4689,36 @@ var DatePicker = (function (_React$Component) {
 })(_react2['default'].Component);
 
 exports['default'] = DatePicker;
+
+DatePicker.propTypes = {
+	className: _react2['default'].PropTypes.string,
+	dateChange: _react2['default'].PropTypes.func.isRequired,
+	dayLabel: _react2['default'].PropTypes.string,
+	maxYear: _react2['default'].PropTypes.number,
+	minYear: _react2['default'].PropTypes.number,
+	mode: _react2['default'].PropTypes.string,
+	monthLabel: _react2['default'].PropTypes.string,
+	padDay: _react2['default'].PropTypes.bool,
+	padMonth: _react2['default'].PropTypes.bool,
+	selectDay: _react2['default'].PropTypes.string,
+	selectMonth: _react2['default'].PropTypes.string,
+	selectYear: _react2['default'].PropTypes.string,
+	useMonthNames: _react2['default'].PropTypes.bool,
+	yearLabel: _react2['default'].PropTypes.string
+};
+
+DatePicker.defaultProps = {
+	dayLabel: 'day',
+	minYear: (0, _moment2['default'])().subtract('y', 100),
+	maxYear: (0, _moment2['default'])().year(),
+	monthLabel: 'month',
+	padDay: false,
+	padMonth: false,
+	selectDay: '',
+	selectMonth: '',
+	selectYear: '',
+	useMonthNames: false
+};
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
