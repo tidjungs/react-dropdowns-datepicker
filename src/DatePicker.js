@@ -39,7 +39,7 @@ export default class DatePicker extends React.Component {
 		let monthIndex = 1;
 		for (const monthName of moment.localeData().months()) {
 			month.push({
-				text: this.props.useMonthNames ? monthName : index,
+				text: this.props.useMonthNames ? monthName : monthIndex,
 				value: monthIndex
 			});
 			monthIndex++;
