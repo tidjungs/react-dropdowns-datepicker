@@ -5,16 +5,16 @@ import DatePicker from'react-dropdowns-datepicker';
 class App extends React.Component {
 
 	constructor() {
-		super()
+		super();
 		this.state = {
 			date: null,
-		}
+		};
 	}
 
 	dateChange(date) {
 		this.setState ({
 			date: date
-		})
+		});
 	}
 
 	render () {

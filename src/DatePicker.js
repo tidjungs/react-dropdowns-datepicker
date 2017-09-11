@@ -3,45 +3,44 @@ import moment from 'moment';
 
 export default class DatePicker extends React.Component {
 	constructor(props) {
-		super(props)
+		super(props);
+		let { dayLabel, monthLabel, yearLabel } = props;
+
 		this.state = {
 			day: null,
 			month: null,
 			year: null,
-			selectDay: props.mode === "TH" ? "วันที่" : "day",
-			selectMonth: props.mode === "TH" ? "เดือน" : "month",
-			selectYear: props.mode === "TH" ? "ปี" : "year",
-		}
+			selectDay: props.mode === 'TH' ? 'วันที่' : dayLabel,
+			selectMonth: props.mode === 'TH' ? 'เดือน' :monthLabel,
+			selectYear: props.mode === 'TH' ? 'ปี' : yearLabel,
+		};
 	}
 
 	shouldComponentUpdate(_nextProps, nextState) {
-    return this.state.selectDay !== nextState.selectDay || this.state.selectMonth !== nextState.selectMonth || this.state.selectYear !== nextState.selectYear
-  }
+		return this.state.selectDay !== nextState.selectDay || this.state.selectMonth !== nextState.selectMonth || this.state.selectYear !== nextState.selectYear;
+	}
 
 	componentWillMount() {
-		let day, month, year;
-		if(this.props.mode === "TH") {
-			day = ['วันที่'], month= ['เดือน'], year = ['ปี'];
-		} else {
-			day = ['day'], month = ['month'], year = ['year'];
-		}
+		let day = [], month = [], year = [];
+
+		const pad = (n) => {
+			return (n < 10 ? '0' + n : n );
+		};
 
 		for (let i=1; i<=31; i++) {
-			day.push(i);
-		}
-		for (let i=1; i<=12; i++) {
-			month.push(i);
+			day.push(this.props.padDay ? pad(i) : i);
 		}
 
-		let minYear = 1916;
-		let maxYear = 2016;
-
-		if(this.props.minYear && this.props.maxYear) {
-			minYear = this.props.minYear;
-			maxYear = this.props.maxYear;
+		let monthIndex = 1;
+		for (const monthName of moment.localeData().months()) {
+			month.push({
+				text: this.props.useMonthNames ? monthName : this.props.padMonth ? pad(monthIndex) : monthIndex,
+				value: monthIndex
+			});
+			monthIndex++;
 		}
 
-		for (let i=maxYear; i>=minYear; i--) {
+		for (let i=this.props.maxYear; i>=this.props.minYear; i--) {
 			year.push(i);
 		}
 
@@ -70,41 +69,74 @@ export default class DatePicker extends React.Component {
 			selectYear = value;
 		}
 
-		if(this.isSelectedAllDropdowns(selectDay, selectMonth, selectYear)){
-			this.props.dateChange( moment({ year :selectYear, month :selectMonth - 1, day :selectDay}).format() )
+		if (this.isSelectedAllDropdowns(selectDay, selectMonth, selectYear)) {
+			this.props.dateChange( moment({ year :selectYear, month :selectMonth - 1, day :selectDay}).format() );
 		}
 	}
 
 	isSelectedAllDropdowns(selectDay, selectMonth, selectYear) {
-		return this.props.mode === "TH" 
-			? selectDay !== "วันที่" && selectMonth !== "เดือน" && selectYear !== "ปี"
-			: selectDay !== "day" && selectMonth !== "month" && selectYear !== "year"
+		return this.props.mode === 'TH' 
+			? selectDay !== 'วันที่' && selectMonth !== 'เดือน' && selectYear !== 'ปี'
+			: (selectDay !== this.props.dayLabel) && (selectMonth !== this.props.monthLabel) && (selectYear !== this.props.yearLabel);
 	}
 
 	render() {
-
 		const dayElement = this.state.day.map((day, id) => {
-			return <option value={ day } key={ id }>{ day }</option>
-		})
+			return <option value={ day } key={ id }>{ day }</option>;
+		});
 		const monthElement = this.state.month.map((month, id) => {
-			return <option value={ month } key={ id }>{ month }</option>
-		})
+			return <option value={ month.value } key={ id }>{ month.text }</option>;
+		});
 		const yearElement = this.state.year.map((year, id) => {
-			return <option value={ year } key={ id }>{ year }</option>
-		})
+			return <option value={ year } key={ id }>{ year }</option>;
+		});
 
 		return (
 			<div>
-				<select value={this.state.selectDay} onChange={(e) => this.changeDate(e, 'selectDay')}>
+				<select defaultValue="" className={this.props.className} value={this.state.selectDay} onChange={(e) => this.changeDate(e, 'selectDay')}>
+					<option value="">{this.props.mode === 'TH' ? 'วันที่' : this.props.dayLabel}</option>
 					{ dayElement }
 				</select>
-				<select value={this.state.selectMonth} onChange={(e) => this.changeDate(e, 'selectMonth')}>
+				<select defaultValue="" className={this.props.className} value={this.state.selectMonth} onChange={(e) => this.changeDate(e, 'selectMonth')}>
+					<option value="">{this.props.mode === 'TH' ? 'เดือน' : this.props.monthLabel}</option>
 					{ monthElement }
 				</select>
-				<select value={this.state.selectYear} onChange={(e) => this.changeDate(e, 'selectYear')}>
+				<select defaultValue="" className={this.props.className} value={this.state.selectYear} onChange={(e) => this.changeDate(e, 'selectYear')}>
+					<option value="">{this.props.mode === 'TH' ? 'ปี' : this.props.yearLabel}</option>
 					{ yearElement }
 				</select>
 			</div>
-		)
+		);
 	}
 }
+
+DatePicker.propTypes = {
+	className: React.PropTypes.string,
+	dateChange: React.PropTypes.func,
+	dayLabel: React.PropTypes.string,
+	maxYear: React.PropTypes.number,
+	minYear: React.PropTypes.number,
+	mode: React.PropTypes.string,
+	monthLabel: React.PropTypes.string,
+	padDay: React.PropTypes.bool,
+	padMonth: React.PropTypes.bool,
+	selectDay: React.PropTypes.string,
+	selectMonth: React.PropTypes.string,
+	selectYear: React.PropTypes.string,
+	useMonthNames: React.PropTypes.bool,
+	yearLabel: React.PropTypes.string
+};
+
+DatePicker.defaultProps = {
+	dayLabel: 'day',
+	minYear: 1916,
+	maxYear: 2016,
+	monthLabel: 'month',
+	padDay: false,
+	padMonth: false,
+	selectDay: '',
+	selectMonth: '',
+	selectYear: '',
+	yearLabel: 'year',
+	useMonthNames: false
+};

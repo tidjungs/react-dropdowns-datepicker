@@ -1,6 +1,6 @@
 {
   "name": "react-dropdowns-datepicker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "DatePicker",
   "main": "lib/DatePicker.js",
   "author": "Waewprach Suthirawut",
