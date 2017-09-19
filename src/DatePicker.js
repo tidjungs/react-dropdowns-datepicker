@@ -130,7 +130,7 @@ DatePicker.propTypes = {
 DatePicker.defaultProps = {
 	dayLabel: 'day',
 	minYear: 1916,
-	maxYear: 2016,
+	maxYear: 2017,
 	monthLabel: 'month',
 	padDay: false,
 	padMonth: false,
