@@ -4,15 +4,15 @@ import moment from 'moment';
 export default class DatePicker extends React.Component {
 	constructor(props) {
 		super(props);
-		let { dayLabel, monthLabel, yearLabel, defaultDate } = props;
+		const { dayLabel, monthLabel, yearLabel, defaultDate } = props;
 
 		this.state = {
-			day: defaultDate ? moment(defaultDate).date() : null,
-			month: defaultDate ? moment(defaultDate).month() : null,
-			year: defaultDate ? moment(defaultDate).year() : null,
-			selectDay: props.mode === 'TH' ? 'วันที่' : dayLabel,
-			selectMonth: props.mode === 'TH' ? 'เดือน' :monthLabel,
-			selectYear: props.mode === 'TH' ? 'ปี' : yearLabel,
+			day: null,
+			month: null,
+			year: null,
+			selectDay: defaultDate ? moment(defaultDate).date() : (props.mode === 'TH' ? 'วันที่' : dayLabel),
+			selectMonth: defaultDate ? moment(defaultDate).month() + 1 : (props.mode === 'TH' ? 'เดือน' :monthLabel),
+			selectYear: defaultDate ? moment(defaultDate).year() : (props.mode === 'TH' ? 'ปี' : yearLabel),
 		};
 	}
 
@@ -90,6 +90,9 @@ export default class DatePicker extends React.Component {
 	}
 
 	isSelectedAllDropdowns(selectDay, selectMonth, selectYear) {
+		if (selectDay === '' || selectMonth === '' || selectYear === '') {
+			return false;
+		}
 		return this.props.mode === 'TH' ?
 			selectDay !== 'วันที่' && selectMonth !== 'เดือน' && selectYear !== 'ปี'
 			:
