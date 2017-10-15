@@ -58,6 +58,14 @@ export default class DatePicker extends React.Component {
 		this.checkDate(e.target.value, type);
 	}
 
+	getDate(date) {
+		if(moment(date).isValid()) {
+			return moment(date).format();
+		} else {
+			return undefined;
+		}
+	}
+
 	checkDate(value, type) {
 		let { selectDay, selectMonth, selectYear } = this.state;
 
@@ -70,7 +78,12 @@ export default class DatePicker extends React.Component {
 		}
 
 		if (this.isSelectedAllDropdowns(selectDay, selectMonth, selectYear)) {
-			this.props.dateChange( moment({ year :selectYear, month :selectMonth - 1, day :selectDay}).format() );
+			const dateObject = {
+				year :selectYear,
+				month :selectMonth - 1,
+				day :selectDay
+			};
+			this.props.dateChange(this.getDate(dateObject));
 		} else {
 			this.props.dateChange(undefined);
 		}
