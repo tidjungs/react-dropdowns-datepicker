@@ -50,7 +50,7 @@ export default class DatePicker extends React.Component {
 			year: year
 		});
 	}
-	
+
 	changeDate(e, type) {
 		this.setState({
 			[type]: e.target.value
@@ -71,13 +71,16 @@ export default class DatePicker extends React.Component {
 
 		if (this.isSelectedAllDropdowns(selectDay, selectMonth, selectYear)) {
 			this.props.dateChange( moment({ year :selectYear, month :selectMonth - 1, day :selectDay}).format() );
+		} else {
+			this.props.dateChange(undefined);
 		}
 	}
 
 	isSelectedAllDropdowns(selectDay, selectMonth, selectYear) {
-		return this.props.mode === 'TH' 
-			? selectDay !== 'วันที่' && selectMonth !== 'เดือน' && selectYear !== 'ปี'
-			: (selectDay !== this.props.dayLabel) && (selectMonth !== this.props.monthLabel) && (selectYear !== this.props.yearLabel);
+		return this.props.mode === 'TH' ?
+			selectDay !== 'วันที่' && selectMonth !== 'เดือน' && selectYear !== 'ปี'
+			:
+			(selectDay !== this.props.dayLabel) && (selectMonth !== this.props.monthLabel) && (selectYear !== this.props.yearLabel);
 	}
 
 	render() {
