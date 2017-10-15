@@ -4,12 +4,12 @@ import moment from 'moment';
 export default class DatePicker extends React.Component {
 	constructor(props) {
 		super(props);
-		let { dayLabel, monthLabel, yearLabel } = props;
+		let { dayLabel, monthLabel, yearLabel, defaultDate } = props;
 
 		this.state = {
-			day: null,
-			month: null,
-			year: null,
+			day: defaultDate ? moment(defaultDate).date() : null,
+			month: defaultDate ? moment(defaultDate).month() : null,
+			year: defaultDate ? moment(defaultDate).year() : null,
 			selectDay: props.mode === 'TH' ? 'วันที่' : dayLabel,
 			selectMonth: props.mode === 'TH' ? 'เดือน' :monthLabel,
 			selectYear: props.mode === 'TH' ? 'ปี' : yearLabel,
@@ -117,6 +117,7 @@ DatePicker.propTypes = {
 	className: React.PropTypes.string,
 	dateChange: React.PropTypes.func,
 	dayLabel: React.PropTypes.string,
+	defaultDate: React.PropTypes.string,
 	maxYear: React.PropTypes.number,
 	minYear: React.PropTypes.number,
 	mode: React.PropTypes.string,
